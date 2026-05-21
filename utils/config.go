@@ -54,6 +54,7 @@ type ConfigStructure struct { // nolint: maligned
 	GpgDisableSign   bool     `json:"gpgDisableSign"                yaml:"gpg_disable_sign"`
 	GpgDisableVerify bool     `json:"gpgDisableVerify"              yaml:"gpg_disable_verify"`
 	GpgKeys          []string `json:"gpgKeys"                       yaml:"gpg_keys"`
+	KmsRegion        string   `json:"kmsRegion"                     yaml:"kms_region"`
 
 	// Publishing
 	SkipContentsPublishing bool `json:"skipContentsPublishing"        yaml:"skip_contents_publishing"`

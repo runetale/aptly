@@ -489,6 +489,7 @@ func (context *AptlyContext) pgpProvider() string {
 	case "gpg1": // nolint: goconst
 	case "gpg2": // nolint: goconst
 	case "internal": // nolint: goconst
+	case "kms": // nolint: goconst
 	default:
 		Fatal(fmt.Errorf("unknown gpg provider: %v", provider))
 	}
@@ -504,9 +505,12 @@ func (context *AptlyContext) getGPGFinder() pgp.GPGFinder {
 		return pgp.GPG2Finder()
 	case "gpg":
 		return pgp.GPGDefaultFinder()
+	case "kms":
+		// KMS is used for signing published metadata; package verification uses system gpg.
+		return pgp.GPG2Finder()
 	}
 
-	panic("uknown GPG provider type")
+	panic("unknown GPG provider type")
 }
 
 // GetSigner returns Signer with respect to provider
@@ -517,6 +521,12 @@ func (context *AptlyContext) GetSigner() pgp.Signer {
 	provider := context.pgpProvider()
 	if provider == "internal" { // nolint: goconst
 		return &pgp.GoSigner{}
+	}
+
+	if provider == "kms" { // nolint: goconst
+		signer := &pgp.KmsSigner{}
+		signer.SetRegion(context.config().KmsRegion)
+		return signer
 	}
 
 	return pgp.NewGpgSigner(context.getGPGFinder())

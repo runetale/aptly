@@ -119,7 +119,7 @@ package environment to new version.`,
 	cmd.Flag.Bool("dep-verbose-resolve", false, "when processing dependencies, print detailed logs")
 	cmd.Flag.String("architectures", "", "list of architectures to consider during (comma-separated), default to all available")
 	cmd.Flag.String("config", "", "location of configuration file (default locations in order: ~/.aptly.conf, /usr/local/etc/aptly.conf, /etc/aptly.conf)")
-	cmd.Flag.String("gpg-provider", "", "PGP implementation (\"gpg\", \"gpg1\", \"gpg2\" for external gpg or \"internal\" for Go internal implementation)")
+	cmd.Flag.String("gpg-provider", "", "PGP implementation (\"gpg\", \"gpg1\", \"gpg2\" for external gpg, \"internal\" for Go implementation, or \"kms\" for AWS KMS signing)")
 
 	if aptly.EnableDebug {
 		cmd.Flag.String("cpuprofile", "", "write cpu profile to file")
